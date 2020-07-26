@@ -64,3 +64,52 @@ docker run exec -it <container id> sh
 docker run exec -it 7860bdfs21ds sh
 
 ```
+
+To just see the logs in our terminal for a running container we run
+
+``` bash
+  docker logs <container id>
+  docker logs bgh452221Fde21
+```
+
+<br />
+
+### To stop a running container (Kill)
+
+We can write a simple command like
+
+``` bash
+  docker stop <container id>
+  docker stop fr423ds3132
+```
+
+Another command is to simple run
+
+``` bash
+  docker kill <container id>
+  docker kill fr423ds3132
+```
+
+<br/>
+
+### Mapping over different ports
+
+We can simple and really easy to run a simple web server like [**Nginx**](https://www.nginx.com/).
+We will pull the image from docker hub and create a container from it.
+
+``` bash
+  docker run nginx
+```
+
+to make nginx keep running we need to add the *--detach* flag , or *-d*.
+Nginx run by default on port : 80 , to have access to the port on our local development environment we need to tell our machine to run the port in our environment and not just in the container.
+
+So we need to map port in our container to run in our own local environment.
+simple commands like *--port* ore *-p* should do the job.
+
+``` bash
+  docker run -p <host port:container port> nginx
+  docker run -p 80:80 nginx
+```
+
+This will run nginx on our local machine on port 80 now 🙌⚛️
