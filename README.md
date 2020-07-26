@@ -113,3 +113,35 @@ simple commands like *--port* ore *-p* should do the job.
 ```
 
 This will run nginx on our local machine on port 80 now 🙌⚛️
+
+<br/>
+
+### Build own image ≒🏗
+
+To create your own image you will need a **Dockerfile**, here you will put all your building steps.
+You always start your **Dockerfile** with *FROM*.
+This instruction starts a new build stage and sets the base image.
+So for example.
+
+``` Dockerfile
+  FROM ubuntu
+```
+
+will set ubuntu as our base image, we want all the functionality from the Ubuntu image that already exits in Docker hub.
+
+**apt-get**  is Ubuntu own package-manager.
+*RUN* is a another step that will run in our image.
+*CMD* provide defaults for an executing container, can only be one *CMD* command inside a Dockerfile.
+
+``` Dockerfile
+RUN apt-get update
+RUN apt-get install nodejs -y
+
+CMD ["node"]
+```
+
+To build the image tou enter the docker build command.
+
+``` bash
+  docker build <build context>
+```
