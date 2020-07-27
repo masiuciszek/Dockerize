@@ -1,14 +1,18 @@
 # Dockerize
 
-About how to get started with *Docker* and how you get a solid fundamental base with docker commands and scripts. 🐡
+<img src="./dockerlogo.png"  alt="docker_logo"/>
 
-Using images from *Docker hub* and created containers.
+Thanks a lot to _Farhan Hasin_ for a great tutorial on how to use Docker. [Give a 🌟](https://github.com/fhsinchy/docker-handbook-projects)
+
+About how to get started with _Docker_ and how you get a solid fundamental base with docker commands and scripts. 🐳
+
+Using images from _Docker hub_ and created containers.
 
 Writing your own images , for example a basic Node express application.
 
 ### List docker containers and images
 
-``` bash
+```bash
 
   docker ps -a
 
@@ -16,15 +20,15 @@ Writing your own images , for example a basic Node express application.
 
 ### getting Redis image from Dockerhub
 
-``` bash
+```bash
   docker run redis
 ```
 
-Too keep the server running we need to run the Redis image in a detach mode with the *--detach* flag or with a shortcut of *-d*
+Too keep the server running we need to run the Redis image in a detach mode with the _--detach_ flag or with a shortcut of _-d_
 
 You should be able to inspect your dashboard with the **ps** command.
 
-``` bash
+```bash
   docker ps -a
 
 ```
@@ -33,15 +37,15 @@ You should be able to inspect your dashboard with the **ps** command.
 
 ### Remove all images
 
-``` bash
+```bash
   docker images purge
 ```
 
 <br/>
 
-### executing other commands inside a already running container with *EXEC*
+### executing other commands inside a already running container with _EXEC_
 
-``` bash
+```bash
 
 docker exec <container id> <command>
 
@@ -49,7 +53,7 @@ docker exec <container id> <command>
 
 For example
 
-``` bash
+```bash
   docker exec -it 5531133af6a1 redis-cli
 ```
 
@@ -59,7 +63,7 @@ For example
 
 If you want to use the shell in a running container then you can use almost the same command as previous, end the script with sh
 
-``` bash
+```bash
 docker run exec -it <container id> sh
 docker run exec -it 7860bdfs21ds sh
 
@@ -67,7 +71,7 @@ docker run exec -it 7860bdfs21ds sh
 
 To just see the logs in our terminal for a running container we run
 
-``` bash
+```bash
   docker logs <container id>
   docker logs bgh452221Fde21
 ```
@@ -78,14 +82,14 @@ To just see the logs in our terminal for a running container we run
 
 We can write a simple command like
 
-``` bash
+```bash
   docker stop <container id>
   docker stop fr423ds3132
 ```
 
 Another command is to simple run
 
-``` bash
+```bash
   docker kill <container id>
   docker kill fr423ds3132
 ```
@@ -97,17 +101,17 @@ Another command is to simple run
 We can simple and really easy to run a simple web server like [**Nginx**](https://www.nginx.com/).
 We will pull the image from docker hub and create a container from it.
 
-``` bash
+```bash
   docker run nginx
 ```
 
-to make nginx keep running we need to add the *--detach* flag , or *-d*.
+to make nginx keep running we need to add the _--detach_ flag , or _-d_.
 Nginx run by default on port : 80 , to have access to the port on our local development environment we need to tell our machine to run the port in our environment and not just in the container.
 
 So we need to map port in our container to run in our own local environment.
-simple commands like *--port* ore *-p* should do the job.
+simple commands like _--port_ ore _-p_ should do the job.
 
-``` bash
+```bash
   docker run -p <host port:container port> nginx
   docker run -p 80:80 nginx
 ```
@@ -119,21 +123,21 @@ This will run nginx on our local machine on port 80 now 🙌⚛️
 ### Build own image ≒🏗
 
 To create your own image you will need a **Dockerfile**, here you will put all your building steps.
-You always start your **Dockerfile** with *FROM*.
+You always start your **Dockerfile** with _FROM_.
 This instruction starts a new build stage and sets the base image.
 So for example.
 
-``` Dockerfile
+```Dockerfile
   FROM ubuntu
 ```
 
 will set ubuntu as our base image, we want all the functionality from the Ubuntu image that already exits in Docker hub.
 
-**apt-get**  is Ubuntu own package-manager.
-*RUN* is a another step that will run in our image.
-*CMD* provide defaults for an executing container, can only be one *CMD* command inside a Dockerfile.
+**apt-get** is Ubuntu own package-manager.
+_RUN_ is a another step that will run in our image.
+_CMD_ provide defaults for an executing container, can only be one _CMD_ command inside a Dockerfile.
 
-``` Dockerfile
+```Dockerfile
 RUN apt-get update
 RUN apt-get install nodejs -y
 
@@ -142,6 +146,37 @@ CMD ["node"]
 
 To build the image tou enter the docker build command.
 
-``` bash
+```bash
   docker build <build context>
+```
+
+<br/>
+
+### Build a Node server
+
+#### Dockerfile instructions should be:
+
+- use a base image that allows you to run _Node_ applications.
+- copy **package.json** file and install the dependencies by running npm/yarn run install
+- Copy all the project files that we needs.
+- start the application by running the script _npm/yarn run start_
+
+```Dockerfile
+FROM node
+
+WORKDIR /usr/app
+
+COPY ./package.json ./
+RUN npm install
+
+COPY . .
+
+CMD ["npm","run","start"]
+
+```
+
+To run the app and on our local environment we need to map the port from the container.
+
+```bash
+  docker run -p 3000:3000 df32432fd32d
 ```
