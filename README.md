@@ -1,6 +1,10 @@
 # Dockerize
 
-<img src="./dockerlogo.png"  alt="docker_logo"/>
+<div style="display:flex; justify-content: center; align-items: center; max-width: 600px; margin: 0 auto; ">
+
+  <img src="./dockerlogo.png"  alt="docker_logo" width="300px" />
+
+</div>
 
 Thanks a lot to _Farhan Hasin_ for a great tutorial on how to use Docker. [Give a 🌟](https://github.com/fhsinchy/docker-handbook-projects)
 
@@ -179,4 +183,26 @@ To run the app and on our local environment we need to map the port from the con
 
 ```bash
   docker run -p 3000:3000 df32432fd32d
+```
+
+<br/>
+
+### Volumes
+
+Working with volumes comes in very handy when you want your container to be able to access the files from your host, for example your code.
+
+For example when you building a React image and you will change the code while running the app, you will not see any changes because the container will not change the copy of the image.
+
+Thats why volumes are useful.
+
+Docker has an syntax -v or --volume for the run command.
+
+```bash
+  docker run -v
+  -v or --volume
+
+  docker run -v <absolute path to host directory>:<absolute path to container working directory> <image id>
+
+  docker run -v /Users/masiuciszek/web-dev/my_web_proj/docker_ized/react:/usr/app 32fd21213sdas23
+
 ```
