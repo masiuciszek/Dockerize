@@ -206,3 +206,20 @@ Docker has an syntax -v or --volume for the run command.
   docker run -v /Users/masiuciszek/web-dev/my_web_proj/docker_ized/react:/usr/app 32fd21213sdas23
 
 ```
+
+This can actually can be improved with the _\$(pwd)_ variable
+so instead of writing the whole path we can just add into out script the _\$(pwd)_ variable.
+
+```bash
+docker run -p 3000:3000 -v /usr/app/node_modules -v ${pwd}:/usr/app cc911238f2db
+```
+
+There are 2 kind's of _volumes_
+
+**Named Volumes:** These volumes have a specific source from outside the container, for example -v (\$PWD):/usr/app.
+
+**Anonymous Volumes:** These volumes have no specific source, for example -v /usr/app/node_modules. When the container is deleted, anonymous volumes need to be deleted manually.
+
+<br/>
+
+### Multi-staged Builds
