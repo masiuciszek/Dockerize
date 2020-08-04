@@ -16,7 +16,7 @@ Writing your own images , for example a basic Node express application.
 
 ### List docker containers and images
 
-```bash
+``` bash
 
   docker ps -a
 
@@ -24,7 +24,7 @@ Writing your own images , for example a basic Node express application.
 
 ### getting Redis image from Dockerhub
 
-```bash
+``` bash
   docker run redis
 ```
 
@@ -32,7 +32,7 @@ Too keep the server running we need to run the Redis image in a detach mode with
 
 You should be able to inspect your dashboard with the **ps** command.
 
-```bash
+``` bash
   docker ps -a
 
 ```
@@ -41,7 +41,7 @@ You should be able to inspect your dashboard with the **ps** command.
 
 ### Remove all images
 
-```bash
+``` bash
   docker images purge
 ```
 
@@ -49,7 +49,7 @@ You should be able to inspect your dashboard with the **ps** command.
 
 ### executing other commands inside a already running container with _EXEC_
 
-```bash
+``` bash
 
 docker exec <container id> <command>
 
@@ -57,7 +57,7 @@ docker exec <container id> <command>
 
 For example
 
-```bash
+``` bash
   docker exec -it 5531133af6a1 redis-cli
 ```
 
@@ -67,7 +67,7 @@ For example
 
 If you want to use the shell in a running container then you can use almost the same command as previous, end the script with sh
 
-```bash
+``` bash
 docker run exec -it <container id> sh
 docker run exec -it 7860bdfs21ds sh
 
@@ -75,7 +75,7 @@ docker run exec -it 7860bdfs21ds sh
 
 To just see the logs in our terminal for a running container we run
 
-```bash
+``` bash
   docker logs <container id>
   docker logs bgh452221Fde21
 ```
@@ -86,14 +86,14 @@ To just see the logs in our terminal for a running container we run
 
 We can write a simple command like
 
-```bash
+``` bash
   docker stop <container id>
   docker stop fr423ds3132
 ```
 
 Another command is to simple run
 
-```bash
+``` bash
   docker kill <container id>
   docker kill fr423ds3132
 ```
@@ -105,7 +105,7 @@ Another command is to simple run
 We can simple and really easy to run a simple web server like [**Nginx**](https://www.nginx.com/).
 We will pull the image from docker hub and create a container from it.
 
-```bash
+``` bash
   docker run nginx
 ```
 
@@ -115,10 +115,14 @@ Nginx run by default on port : 80 , to have access to the port on our local deve
 So we need to map port in our container to run in our own local environment.
 simple commands like _--port_ ore _-p_ should do the job.
 
-```bash
+``` bash
   docker run -p <host port:container port> nginx
   docker run -p 80:80 nginx
 ```
+
+**the first port is that will run on your machine**
+**Second port is what you have in your application**
+**so the first port is something you can change on what port you want**
 
 This will run nginx on our local machine on port 80 now 🙌⚛️
 
@@ -131,7 +135,7 @@ You always start your **Dockerfile** with _FROM_.
 This instruction starts a new build stage and sets the base image.
 So for example.
 
-```Dockerfile
+``` Dockerfile
   FROM ubuntu
 ```
 
@@ -141,7 +145,7 @@ will set ubuntu as our base image, we want all the functionality from the Ubuntu
 _RUN_ is a another step that will run in our image.
 _CMD_ provide defaults for an executing container, can only be one _CMD_ command inside a Dockerfile.
 
-```Dockerfile
+``` Dockerfile
 RUN apt-get update
 RUN apt-get install nodejs -y
 
@@ -150,7 +154,7 @@ CMD ["node"]
 
 To build the image tou enter the docker build command.
 
-```bash
+``` bash
   docker build <build context>
 ```
 
@@ -160,12 +164,12 @@ To build the image tou enter the docker build command.
 
 #### Dockerfile instructions should be:
 
-- use a base image that allows you to run _Node_ applications.
-- copy **package.json** file and install the dependencies by running npm/yarn run install
-- Copy all the project files that we needs.
-- start the application by running the script _npm/yarn run start_
+* use a base image that allows you to run _Node_ applications.
+* copy **package.json** file and install the dependencies by running npm/yarn run install
+* Copy all the project files that we needs.
+* start the application by running the script _npm/yarn run start_
 
-```Dockerfile
+``` Dockerfile
 FROM node
 
 WORKDIR /usr/app
@@ -181,7 +185,7 @@ CMD ["npm","run","start"]
 
 To run the app and on our local environment we need to map the port from the container.
 
-```bash
+``` bash
   docker run -p 3000:3000 df32432fd32d
 ```
 
@@ -197,7 +201,7 @@ Thats why volumes are useful.
 
 Docker has an syntax -v or --volume for the run command.
 
-```bash
+``` bash
   docker run -v
   -v or --volume
 
@@ -210,7 +214,7 @@ Docker has an syntax -v or --volume for the run command.
 This can actually can be improved with the _\$(pwd)_ variable
 so instead of writing the whole path we can just add into out script the _\$(pwd)_ variable.
 
-```bash
+``` bash
 docker run -p 3000:3000 -v /usr/app/node_modules -v ${pwd}:/usr/app cc911238f2db
 ```
 

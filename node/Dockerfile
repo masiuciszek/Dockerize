@@ -1,7 +1,10 @@
-FROM ubuntu
+FROM node
 
-RUN apt-get update
-RUN apt-get install nodejs -y
+WORKDIR /usr/app
 
+COPY ./package.json ./
+RUN npm install
 
-CMD ["node"]
+COPY . .
+
+CMD [ "npm", "run", "start" ]
